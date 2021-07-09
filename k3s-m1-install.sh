@@ -5,7 +5,7 @@ set -o nounset
 source config
 NAME="k3s-m1"
 DISK="/mnt/virt/$NAME.qcow2"
-RAM=4 # in GB
+DATA_DISK="$VIRT_DIR/${NAME}_data.qcow2"
 
 
 #### Configure kernel args for installation
@@ -24,10 +24,12 @@ rm -f $VIRT_DIR/$NAME.qcow2
 virt-install -v \
 	--virt-type kvm \
 	--name $NAME \
-	--memory $(($RAM*1024)) \
-	--disk $DISK,bus=virtio,size=$DISK_SIZE,format=qcow2 \
-	--cdrom $ISO \
 	--boot kernel=$KERNEL,initrd="$INITRD",kernel_args="$KERNEL_ARGS"  \
+	--vcpu $CPU \
+	--memory $(($RAM*1024)) \
+	--disk $DISK,     bus=virtio,size=$DISK_SIZE,     format=qcow2 \
+	--disk $DATA_DISK,bus=virtio,size=$DATA_DISK_SIZE,format=qcow2 \
+	--cdrom $ISO \
 	--network=bridge,model=virtio,mac=52:54:00:D0:33:DA \
 	--os-type linux \
 	--os-variant ubuntu20.04 \

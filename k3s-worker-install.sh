@@ -1,12 +1,12 @@
 #!/bin/bash
 set -o nounset
 
-
-
 ### Set the variables
 source config
 NAME=$1
 DISK="$VIRT_DIR/$NAME.qcow2"
+DATA_DISK="$VIRT_DIR/${NAME}_data.qcow2"
+
 
 #### Configure kernel args for installation
 SILENT_INST=true # Ensure no questions will be asked
@@ -23,9 +23,10 @@ virt-install -v \
 	--virt-type kvm \
 	--name $NAME \
 	--boot hd,cdrom \
-	--vcpus=$WORKER_CPU \
-	--memory $(($WORKER_RAM*1024)) \
-	--disk $DISK,bus=virtio,size=$DISK_SIZE,format=qcow2 \
+	--vcpus $CPU \
+	--memory $(($RAM*1024)) \
+	--disk $DISK,     bus=virtio,size=$DISK_SIZE,     format=qcow2 \
+	--disk $DATA_DISK,bus=virtio,size=$DATA_DISK_SIZE,format=qcow2 \
 	--cdrom $ISO \
 	--boot kernel=$KERNEL,initrd="$INITRD",kernel_args="$KERNEL_ARGS"  \
 	--network=bridge,model=virtio \

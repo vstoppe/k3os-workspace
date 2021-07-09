@@ -1,0 +1,17 @@
+### VM settings
+CPU=2
+RAM=16
+DISK_SIZE=32 # Disk size in GB
+DATA_DISK_SIZE=100
+
+### Boot settings
+INITRD="/var/lib/libvirt/images/k3os-initrd-amd64"
+KERNEL="/var/lib/libvirt/images/k3os-vmlinuz-amd64"
+SECRET="SuPerSecRetCluSteRSecReT"
+TOKEN=K10eb8730738019a5b7c707175a5b02bf525cb2d74f82503a6f94d78984691bfe02::server:SuPerSecRetCluSteRSecReT
+
+### Path settings
+ISO="/root/isos/k3os-amd64.iso"
+URL_ISO="http://infraweb.$DOMAIN/k3os-amd64.iso"
+URL_WORKER_CONFIG="http://infraweb.$DOMAIN/k3s-worker.yaml"
+VIRT_DIR="/mnt/virt"
