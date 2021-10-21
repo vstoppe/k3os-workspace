@@ -17,20 +17,26 @@ KERNEL_ARGS="k3os.token=$SECRET console=ttyS0 k3os.install.tty=ttyS0 k3os.instal
 
 # Cleanup old artefacts
 virsh destroy $NAME
-virsh undefine $NAME --remove-all-storage
+virsh undefine $NAME # --remove all-storage would also removes install iso!
+virsh vol-delete --pool virtspace ${NAME}.qcow2
+virsh vol-delete --pool virtspace ${NAME}_data.qcow2
 
+# Notes:
+# * --install: can not take kernel and initrd from fs of libvirt/kvm host, nfs fails too.
+# * --boot: removes an '/' of the http-url and fails
 
 virt-install -v \
 	--virt-type kvm \
 	--name $NAME \
-	--boot kernel=$KERNEL,initrd="$INITRD",kernel_args="$KERNEL_ARGS"  \
+	--install kernel=$KERNEL,initrd="$INITRD",kernel_args="$KERNEL_ARGS"  \
 	--vcpu $CPU \
 	--memory $(($RAM*1024)) \
 	--disk $DISK,bus=virtio,size=$DISK_SIZE,format=qcow2 \
 	--disk $DATA_DISK,bus=virtio,size=$DATA_DISK_SIZE,format=qcow2 \
-	--cdrom $ISO \
+	--disk $ISO,device=cdrom \
 	--network network=bridged-network,model=virtio,mac=52:54:00:D0:33:DA \
 	--os-variant "ubuntu18.04" \
 	--os-type linux \
 	--graphics none \
+	--boot kernel="$KERNEL_PATH",initrd="$INITRD_PATH",kernel_args="k3os.token=$SECRET console=ttyS0" \
 	--console pty,target_type=serial
