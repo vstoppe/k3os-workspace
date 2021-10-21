@@ -51,20 +51,6 @@ Install the master:
 
 This installs the master vm and leaves you at the login prompt.
 
-#Edit the vm configuration file and adjust the cmdline parameter:
-#
-#`virsh edit k3s-m1`
-#
-#You will find the line:
-#
-#    <cmdline>k3os.token=SuPerSecRetCluSteRSecReT console=ttyS0 k3os.install.tty=ttyS0 k3os.install.device=/dev/vda k3os.mode=install k3os.install.silent=true k3os.install.power_off=true k3os.install.config_url=http://infraweb.lindenbox.de/k3s-m1.yaml k3os.install.iso_url=http://infraweb.lindenbox.de/k3os-amd64.iso</cmdline>
-#
-#Delete everything behind console=ttyS0 until </cmdline> This stuff is only need for the configuration and would trigger ist again!
-#
-#After saving the configuration you can finally start the VM.
-#
-#`virsh start k3s-m1`
-
 Before installing the worker you need to get server token from the master:
 
 `cat /var/lib/rancher/k3s/server/token`
