@@ -1,16 +1,24 @@
 ### VM settings
-WORKER_CPU=2
-WORKER_RAM=8
+CPU=2
+RAM=8
 DISK_SIZE=32 # Disk size in GB
+DATA_DISK_SIZE=100
 
-### Boot settings
-INITRD="/var/lib/libvirt/images/k3os-initrd-amd64"
-KERNEL="/var/lib/libvirt/images/k3os-vmlinuz-amd64"
-SECRET="SuPerSecRetCluSteRSecReT"
-TOKEN=K104d56f916dc249a0b7bd23b428eeddd40df843e9ecaf8a7b8c7c3e17861776d6c::server:SuPerSecRetCluSteRSecReT
 
 ### Path settings
-ISO="/root/isos/k3os-amd64.iso"
+DOMAIN=linden.net
+# ISO path on host
+ISO="/mnt/images/k3os-amd64.iso"
 URL_ISO="http://infraweb.$DOMAIN/k3os-amd64.iso"
 URL_WORKER_CONFIG="http://infraweb.$DOMAIN/k3s-worker.yaml"
 VIRT_DIR="/mnt/virt"
+
+### Boot settings
+INITRD="./assets/k3os-initrd-amd64" # failure after reboot
+KERNEL="./assets/k3os-vmlinuz-amd64"
+# local on host for --boot parameter:
+INITRD_PATH="/mnt/images/k3os-initrd-amd64" # not found
+KERNEL_PATH="/mnt/images/k3os-vmlinuz-amd64"
+#
+SECRET="SuPerSecRetCluSteRSecReT"
+TOKEN="123456789abcdefghijklmnop::server:SuPerSecRetCluSteRSecReT"
