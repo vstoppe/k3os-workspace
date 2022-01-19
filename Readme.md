@@ -23,7 +23,7 @@ You also need to provide libvirt the files:
 
 * k3os-initrd-amd64
 * k3os-vmlinuz-amd64
-* k3os-amd64
+* k3os-amd64.iso
 
 The location for these files are all defined in the config file. You can download the files from the [releases page](https://github.com/rancher/k3os/releases) of K3os below "Assets".
 
