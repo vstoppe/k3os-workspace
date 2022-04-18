@@ -73,4 +73,6 @@ Or by virsh:
 
 `virsh console k3s-m1`
 
-Copy the content of cat /etc/rancher/k3s/k3s.yaml to your local kube config file. Rename the containing server url from 127.0.1 to the real hostname
+`cat /etc/rancher/k3s/k3s.yaml`
+
+to your local kube config file. Rename the inherited server url from 127.0.1 to the real hostname.
