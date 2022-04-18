@@ -65,14 +65,10 @@ Now repeat the steps for adjusting the k3s-m1 for every new worker.
 
 # Connect to the cluster
 
-If dns works for you:
+`scp rancher@k3s-m1:/etc/rancher/k3s/k3s.yaml ~/.kube/k3s.yaml`
 
-`ssh rancher@k3s-m1`
+Rename the inherited server url in k3s.yaml from 127.0.1 to the real hostname.
 
-Or by virsh:
+`export KUBECONFIG=~/.kube/config:~/someotherconfig`
 
-`virsh console k3s-m1`
-
-`cat /etc/rancher/k3s/k3s.yaml`
-
-to your local kube config file. Rename the inherited server url from 127.0.1 to the real hostname.
+`kubectl config view --flatten > ~/.kube/config`
