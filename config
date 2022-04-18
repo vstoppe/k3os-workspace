@@ -1,17 +1,54 @@
-### VM settings
-CPU=2
-RAM=16
+####### VM settings #######
+###########################
+CPU=3
+RAM=24
 DISK_SIZE=32 # Disk size in GB
 DATA_DISK_SIZE=100
 
-### Boot settings
-INITRD="/var/lib/libvirt/images/k3os-initrd-amd64"
-KERNEL="/var/lib/libvirt/images/k3os-vmlinuz-amd64"
-SECRET="SuPerSecRetCluSteRSecReT"
-TOKEN=K10eb8730738019a5b7c707175a5b02bf525cb2d74f82503a6f94d78984691bfe02::server:SuPerSecRetCluSteRSecReT
+RANCHER_PASSWORD="rancher"
 
-### Path settings
-ISO="/root/isos/k3os-amd64.iso"
+####### Path settings #######
+#############################
+DOMAIN=linden.net
+# ISO path on host
+ISO="/mnt/images/k3os-amd64.iso"
 URL_ISO="http://infraweb.$DOMAIN/k3os-amd64.iso"
 URL_WORKER_CONFIG="http://infraweb.$DOMAIN/k3s-worker.yaml"
 VIRT_DIR="/mnt/virt"
+
+####### Boot settings #######
+#############################
+INITRD="./assets/k3os-initrd-amd64" # failure after reboot
+KERNEL="./assets/k3os-vmlinuz-amd64"
+# local on host for --boot parameter:
+INITRD_PATH="/mnt/images/k3os-initrd-amd64" # not found
+KERNEL_PATH="/mnt/images/k3os-vmlinuz-amd64"
+#
+SECRET="SuPerSecRetCluSteRSecReT"
+TOKEN="K1031a0569085b0f4fa4cde853db679f5e0f7d65f34bbae96bc1c70b76ea2e450aa"
+
+
+####### Kernel boot arguments #########
+#######################################
+
+# Some notes for the boot_cmd:
+# Directory would be missing for rpc.statd:
+# - mkdir -p /var/lib/nfs/sm
+# - rc-update add rpc.statd
+# iscsid for longhorn storage
+# - rc-update add iscsid
+KERNEL_BOOT_ARGS="\
+  console=ttyS0 \
+  k3os.boot_cmd=\"mkdir -p /var/lib/nfs/sm\" \
+  k3os.boot_cmd=\"rc-update add iscsid\" \
+  k3os.boot_cmd=\"rc-update add rpc.statd\" \
+  k3os.data_sources=cdrom \
+  k3os.modules=nfs \
+  k3os.modules=kvm \
+  k3os.ntp_servers="10.1.1.1" \
+  k3os.password="$RANCHER_PASSWORD" \
+  k3os.sysctl[kernel.kptr_restrict]=\"1\" \
+  k3os.sysctl[kernel.printk]=\"4 4 1 7\" \
+  k3os.token="$SECRET" \
+  ssh_authorized_keys="github:vstoppe" \
+"

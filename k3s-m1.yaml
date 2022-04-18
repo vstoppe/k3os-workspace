@@ -1,26 +1,8 @@
 ---
-hostname: k3s-m1
-boot_cmd:
-  # Directory would be missing for rpc.statd:
-  - mkdir -p /var/lib/nfs/sm
-  - rc-update add rpc.statd
-  # iscsid for longhorn storage
-  - rc-update add iscsid
-ssh_authorized_keys:
-  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDN2tPFNEoG3zlZnoXX3LT1emznOLZnj45S8JEweB0HEBN0uNCvBPYZAAyLAbjSg/gJPHi1rlJlAvyLTfWaZstSiQk4WW2m3z0XWV+FEM85mEsKAhn6SJdrfizRaTAk2zNhrPU7OBqsMjvkw7v5PQYvei86RHTA+BpkngmiRP16/7xmJLYkl6azNfLYXDyr5RgIpkm1KE5pJJUOOyIZ84fcZrJWR4b6eDUS/AnlfwQE6k2oRyZNbmiPSSXWglOstKckNDIno1sT3WpTsXO1HWFrCZDgpQAdJd6aZ2dZtmtm3YcW/aDeuGDcTIumHB+MOwCA0qEoBHhjrW92asyr0k7X
-  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDT9wpSS2nMyMdG5w/pvJ95qt/k04HR9h5EiW64dm+shP3ImguWgZvLNhA/xJDtUDRmmvAdFsOrlDl9y7z4dLjvcc+UJrIwiIwOBFKX1xCFp1iKGSx4a/VO7bf0NJJCl4Ewo0TnYJA0wxcNEhjlSGtI3WCaiORXU3O6TIVDxW48xR4PaMadZsiAX4GK+HnI+YP5U8bCxbu+lkeHGu2kaqBaKXhciZwz8DVKAUsGm8RuJX3193y6vYJ+tGUZfAlL+1M3SNMBNh64XgBc/eEYp5ocYMAUn4RM1/z7Jn0dKjDn9segBOpXouW9yqFk+UyNyPFPmAUHWBPRYjcQQtvvctcnPzdKU3Em3C+tzlhHCNliUbS5bQY3lhMTMrsFv5O61mAId4jXAxJdJVTmO1GSrcurEJhM93Wdb2ShZN97Csy3L/hkAu5diWkkhhzOCEO4oYzPfJx6n0V7V2nyipYHpj7aoXSGlKNEiKTL/xz3u81GtAo85UrBDl9ru+CmXUMpHG2zQZZ4ZVvKkeHxYuoch0Lucb6utRDcIcZIfiQObJQqT6ZBFEX7F/QvViXjhw+Zn2RgONTMZI+GA82Qxm8oW3b3i3uoHfS0ggX8ogVDAMUULalIDwMCt/iduk+O8rPEPSxCCVRcpRCJ+oNzehcjC5LREQ31QpO8WPFCtoqEJ6nBbQ== root@irix
+#ssh_authorized_keys:
+#  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDN2tPFNEoG3zlZnoXX3LT1emznOLZnj45S8JEweB0HEBN0uNCvBPYZAAyLAbjSg/gJPHi1rlJlAvyLTfWaZstSiQk4WW2m3z0XWV+FEM85mEsKAhn6SJdrfizRaTAk2zNhrPU7OBqsMjvkw7v5PQYvei86RHTA+BpkngmiRP16/7xmJLYkl6azNfLYXDyr5RgIpkm1KE5pJJUOOyIZ84fcZrJWR4b6eDUS/AnlfwQE6k2oRyZNbmiPSSXWglOstKckNDIno1sT3WpTsXO1HWFrCZDgpQAdJd6aZ2dZtmtm3YcW/aDeuGDcTIumHB+MOwCA0qEoBHhjrW92asyr0k7X
+#  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDT9wpSS2nMyMdG5w/pvJ95qt/k04HR9h5EiW64dm+shP3ImguWgZvLNhA/xJDtUDRmmvAdFsOrlDl9y7z4dLjvcc+UJrIwiIwOBFKX1xCFp1iKGSx4a/VO7bf0NJJCl4Ewo0TnYJA0wxcNEhjlSGtI3WCaiORXU3O6TIVDxW48xR4PaMadZsiAX4GK+HnI+YP5U8bCxbu+lkeHGu2kaqBaKXhciZwz8DVKAUsGm8RuJX3193y6vYJ+tGUZfAlL+1M3SNMBNh64XgBc/eEYp5ocYMAUn4RM1/z7Jn0dKjDn9segBOpXouW9yqFk+UyNyPFPmAUHWBPRYjcQQtvvctcnPzdKU3Em3C+tzlhHCNliUbS5bQY3lhMTMrsFv5O61mAId4jXAxJdJVTmO1GSrcurEJhM93Wdb2ShZN97Csy3L/hkAu5diWkkhhzOCEO4oYzPfJx6n0V7V2nyipYHpj7aoXSGlKNEiKTL/xz3u81GtAo85UrBDl9ru+CmXUMpHG2zQZZ4ZVvKkeHxYuoch0Lucb6utRDcIcZIfiQObJQqT6ZBFEX7F/QvViXjhw+Zn2RgONTMZI+GA82Qxm8oW3b3i3uoHfS0ggX8ogVDAMUULalIDwMCt/iduk+O8rPEPSxCCVRcpRCJ+oNzehcjC5LREQ31QpO8WPFCtoqEJ6nBbQ== root@irix
 k3os:
-  data_sources:
-    - cdrom
   dns_nameservers:
-    - 10.1.1.9
-    - 8.8.8.8
-  modules:
-    - kvm
-    - nfs
-  sysctl:
-    kernel.printk: "4 4 1 7"
-    kernel.kptr_restrict: "1"
-  ntp_servers:
     - 10.1.1.1
-  password: "$6$bB1njVjbhfz/lXuH$e1kl/oUIdWFx6qC5Yo4mTkuNY.jEc13ETksWzqgWsfm8kQQ9je3zr6rVov/Y6nYggQMOyvH6qRmLnlXumW6OQ."
+    - 8.8.8.8

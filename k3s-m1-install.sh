@@ -6,13 +6,26 @@ source config
 NAME="k3s-m1"
 DISK="/mnt/virt/$NAME.qcow2"
 DATA_DISK="$VIRT_DIR/${NAME}_data.qcow2"
+RANCHER_PASSWORD="rancher"
+
+### Save the master name so it can be read in the worker instaallation
+echo "master_name=$NAME" > .master
 
 
 #### Configure kernel args for installation
 SILENT_INST=true # Ensure no questions will be asked
 POWER_OFF=true    # Power off after install
-CONFIG_URL="http://infraweb.linden.net/$NAME.yaml"
-KERNEL_ARGS="k3os.token=$SECRET console=ttyS0 k3os.install.tty=ttyS0 k3os.install.device=/dev/vda k3os.mode=install k3os.install.silent=$SILENT_INST k3os.install.power_off=$POWER_OFF k3os.install.config_url=$CONFIG_URL k3os.install.iso_url=$URL_ISO"
+KERNEL_INSTALL_ARGS="\
+  console=ttyS0 \
+  hostname=$NAME \
+  k3os.debug \
+  k3os.install.device=/dev/vda \
+  k3os.install.iso_url=$URL_ISO \
+  k3os.install.power_off=$POWER_OFF \
+  k3os.install.silent=$SILENT_INST \
+  k3os.install.tty=ttyS0 \
+  k3os.mode=install \
+"
 
 
 # Cleanup old artefacts
@@ -28,7 +41,7 @@ virsh vol-delete --pool virtspace ${NAME}_data.qcow2
 virt-install -v \
 	--virt-type kvm \
 	--name $NAME \
-	--install kernel=$KERNEL,initrd="$INITRD",kernel_args="$KERNEL_ARGS"  \
+	--install kernel=$KERNEL,initrd="$INITRD",kernel_args="$KERNEL_INSTALL_ARGS $KERNEL_BOOT_ARGS"  \
 	--vcpu $CPU \
 	--memory $(($RAM*1024)) \
 	--disk $DISK,bus=virtio,size=$DISK_SIZE,format=qcow2 \
@@ -38,5 +51,5 @@ virt-install -v \
 	--os-variant "ubuntu18.04" \
 	--os-type linux \
 	--graphics none \
-	--boot kernel="$KERNEL_PATH",initrd="$INITRD_PATH",kernel_args="k3os.token=$SECRET console=ttyS0" \
+	--boot kernel="$KERNEL_PATH",initrd="$INITRD_PATH",kernel_args="$KERNEL_BOOT_ARGS" \
 	--console pty,target_type=serial

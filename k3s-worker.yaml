@@ -13,14 +13,5 @@ k3os:
   data_sources:
     - cdrom
   dns_nameservers:
-    - 10.1.1.9
-    - 8.8.8.8
-  modules:
-    - kvm
-  sysctl:
-    kernel.printk: "4 4 1 7"
-    kernel.kptr_restrict: "1"
-  ntp_servers:
     - 10.1.1.1
-  password: "$6$bB1njVjbhfz/lXuH$e1kl/oUIdWFx6qC5Yo4mTkuNY.jEc13ETksWzqgWsfm8kQQ9je3zr6rVov/Y6nYggQMOyvH6qRmLnlXumW6OQ."
-  server_url: https://k3s-m1:6443
+    - 8.8.8.8
